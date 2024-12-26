@@ -19,5 +19,3 @@ Route::get('/menus/{merchant_id}', [MenuController::class, 'menu']);
 Route::get('/category', [MenuController::class, 'category']);
 Route::post('/category', [MenuController::class, 'addCategory']);
 Route::get('/ongkir', [MerchantController::class, 'ongkir']);
-
-//Test GIT
