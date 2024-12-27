@@ -81,7 +81,7 @@ class MerchantController extends Controller
         }
     }
 
-    public function upload(Request $request)
+    public function uploadMerchant(Request $request)
     {
         $request->validate([
             'merchant_id' => 'required',

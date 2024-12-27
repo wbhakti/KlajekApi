@@ -113,7 +113,7 @@ class MenuController extends Controller
         ], 201);
     }
 
-    public function upload(Request $request)
+    public function uploadMenu(Request $request)
     {
         $request->validate([
             'merchant_id' => 'required',
