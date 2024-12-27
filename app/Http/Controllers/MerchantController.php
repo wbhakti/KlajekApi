@@ -59,6 +59,26 @@ class MerchantController extends Controller
         }
     }
 
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'merchant_id' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+        $imageName = 'merchant_' . $request->merchant_id . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
+
+        // return $request->image;
+
+        return response()->json([
+            "data" => [
+                "image_name" => $imageName,
+                "message" => "berhasil di unggah",
+            ]
+        ], 200);
+    }
+
+
     public function ongkir(Request $request)
     {
         $merchant = DB::table('merchants')->where('id', $request->merchant_id)->first();
