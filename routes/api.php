@@ -14,9 +14,10 @@ Route::get('/user', function (Request $request) {
 Route::get('/merchants', [MerchantController::class, 'index']);
 Route::post('/merchants', [MerchantController::class, 'addMerchant']);
 Route::put('/merchants/{id}', [MerchantController::class, 'update']);
+Route::post('merchant/upload', [MerchantController::class, 'upload']);
 Route::post('/menus', [MenuController::class, 'addMenu']);
-Route::get('/menus/{merchant_id}', [MenuController::class, 'menu']);
+Route::post('/menu/upload', [MenuController::class, 'upload']);
+Route::post('merchant/upload', [MerchantController::class, 'upload']);
 Route::get('/category', [MenuController::class, 'category']);
 Route::post('/category', [MenuController::class, 'addCategory']);
 Route::get('/ongkir', [MerchantController::class, 'ongkir']);
-Route::post('merchant/upload', [MerchantController::class, 'upload']);

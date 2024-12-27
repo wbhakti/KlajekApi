@@ -71,7 +71,7 @@ class MerchantController extends Controller
         return response()->json([
             "data" => [
                 "image_name" => $imageName,
-                "message" => "berhasil di unggah",
+                "message" => "Foto merchant berhasil di unggah",
             ]
         ], 200);
     }

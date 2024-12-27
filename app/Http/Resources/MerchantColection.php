@@ -18,7 +18,7 @@ class MerchantColection extends JsonResource
             'id' => $this->id,
             'nama' => $this->nama,
             'deskripsi' => $this->deskripsi,
-            'image_url' => asset('images/merchants/' . $this->image),
+            'image_url' => url('KlajekApi/public/images/merchants/' . $this->image),
             'location' => [
                 'latitude' => $this->latitude,
                 'longitude' => $this->longitude

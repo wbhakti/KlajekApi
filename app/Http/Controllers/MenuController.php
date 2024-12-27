@@ -64,4 +64,22 @@ class MenuController extends Controller
             "message" => "Kategori Di tambahkan"
         ], 201);
     }
+
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'merchant_id' => 'required',
+            'sku' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+        $imageName = $request->merchant_id . '_' . $request->sku . '.' . $request->image->extension();
+        $request->image->move(public_path('images/menus'), $imageName);
+
+        return response()->json([
+            "data" => [
+                "image_name" => $imageName,
+                "message" => "Foto menu berhasil di unggah",
+            ]
+        ], 200);
+    }
 }
