@@ -66,9 +66,7 @@ class MerchantController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
         $imageName = 'merchant_' . $request->merchant_id . '.' . $request->image->extension();
-        $request->image->move(public_path('images'), $imageName);
-
-        // return $request->image;
+        $request->image->move(public_path('images/merchants'), $imageName);
 
         return response()->json([
             "data" => [
