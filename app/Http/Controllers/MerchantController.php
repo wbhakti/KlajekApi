@@ -59,6 +59,28 @@ class MerchantController extends Controller
         }
     }
 
+    public function deleteMerchant(Request $request)
+    {
+        $merchant = DB::table('merchants')->where('id', $request->id)->first();
+
+        if ($merchant) {
+            $affected = DB::table('merchants')
+                ->where('id', $request->id)
+                ->update(
+                    [
+                        'is_delete' => true,
+                    ]
+                );
+            return response()->json([
+                "message" => "Merchants berhasil dihapus"
+            ], 200);
+        } else {
+            return response()->json([
+                "message" => "Merchants tidak dihapus"
+            ], 201);
+        }
+    }
+
     public function upload(Request $request)
     {
         $request->validate([
@@ -104,7 +126,8 @@ class MerchantController extends Controller
             $price_km = 2000;
 
             if ($distance > $distance_min) {
-                $distance_diff = round(($distance - $distance_min) / 1000, 0);
+                // $distance_diff = round(($distance - $distance_min) / 1000, 0);
+                $distance_diff = ceil(($distance - $distance_min) / 1000);
                 $biaya_antar = $biaya_antar + ($distance_diff * $price_km);
             }
 

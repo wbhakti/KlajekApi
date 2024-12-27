@@ -45,6 +45,54 @@ class MenuController extends Controller
         ], 201);
     }
 
+    public function updateMenu(Request $request, $id)
+    {
+        $merchant = DB::table('menus')->where('id', $id)->first();
+
+        if ($merchant) {
+            $affected = DB::table('menus')
+                ->where('id', $id)
+                ->update(
+                    [
+                        'sku' => is_null($request->sku) ? $merchant->sku : $request->sku,
+                        'nama' => is_null($request->nama) ? $merchant->nama : $request->nama,
+                        'harga' => is_null($request->harga) ? $merchant->harga : $request->harga,
+                        'image' => is_null($request->image) ? $merchant->image : $request->image,
+                        'kategori' => is_null($request->kategori) ? $merchant->kategori : $request->kategori
+                    ]
+                );
+            return response()->json([
+                "message" => "Menu berhasil diupdate"
+            ], 200);
+        } else {
+            return response()->json([
+                "message" => "Menu tidak ditemukan"
+            ], 201);
+        }
+    }
+
+    public function deleteMenu(Request $request)
+    {
+        $merchant = DB::table('menus')->where('id', $request->id)->first();
+
+        if ($merchant) {
+            $affected = DB::table('menus')
+                ->where('id', $request->id)
+                ->update(
+                    [
+                        'is_delete' => true,
+                    ]
+                );
+            return response()->json([
+                "message" => "Menu berhasil dihapus"
+            ], 200);
+        } else {
+            return response()->json([
+                "message" => "Menu tidak dihapus"
+            ], 201);
+        }
+    }
+
     public function category()
     {
         $merchants = DB::table('categories')->get();
@@ -73,7 +121,7 @@ class MenuController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
         $imageName = $request->merchant_id . '_' . $request->sku . '.' . $request->image->extension();
-        $request->image->move(public_path('images/menus'), $imageName);
+        $request->image->move(public_path('images/menus/' . $request->merchant_id), $imageName);
 
         return response()->json([
             "data" => [

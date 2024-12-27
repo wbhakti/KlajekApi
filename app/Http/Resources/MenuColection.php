@@ -22,7 +22,7 @@ class MenuColection extends JsonResource
             'sku' => $this->sku,
             'nama' => $this->nama,
             'harga' => $this->harga,
-            'image_url' => url('KlajekApi/public/images/menus/' . $this->image),
+            'image_url' => url('KlajekApi/public/images/menus/' . $this->merchant_id . '/' . $this->image),
             'kategori' => [
                 'id' => $this->id_kategori,
                 'kategori' => $this->kategori

@@ -13,10 +13,12 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/merchants', [MerchantController::class, 'index']);
 Route::post('/merchants', [MerchantController::class, 'addMerchant']);
-Route::put('/merchants/{id}', [MerchantController::class, 'update']);
+Route::put('/merchants/update/{id}', [MerchantController::class, 'update']);
 Route::post('merchant/upload', [MerchantController::class, 'upload']);
 Route::post('/menus', [MenuController::class, 'addMenu']);
 Route::post('/menu/upload', [MenuController::class, 'upload']);
+Route::put('/menu/update/{id}', [MenuController::class, 'updateMenu']);
+Route::put('/menu/delete', [MenuController::class, 'deleteMenu']);
 Route::post('merchant/upload', [MerchantController::class, 'upload']);
 Route::get('/category', [MenuController::class, 'category']);
 Route::post('/category', [MenuController::class, 'addCategory']);
