@@ -21,7 +21,7 @@ Route::get('/menus/{id_menu}', [MenuController::class, 'menu']);
 Route::post('/menu/upload', [MenuController::class, 'uploadMenu']);
 Route::put('/menu/update/{id_menu}', [MenuController::class, 'updateMenu']);
 Route::put('/menu/delete', [MenuController::class, 'deleteMenu']);
-Route::get('/category', [MenuController::class, 'category']);
+Route::get('/category/{id_merchant}', [MenuController::class, 'category']);
 Route::post('/category', [MenuController::class, 'addCategory']);
 Route::get('/ongkir', [MerchantController::class, 'ongkir']);
 Route::post('/checkout', [TransactionController::class, 'checkout']);

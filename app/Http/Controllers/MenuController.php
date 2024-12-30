@@ -93,9 +93,11 @@ class MenuController extends Controller
         }
     }
 
-    public function category()
+    public function category($merchant_id)
     {
-        $merchants = DB::table('categories')->get();
+        $merchants = DB::table('categories')
+            ->where('merchant_id', '=', $merchant_id)
+            ->get();
         return response()->json($merchants);
     }
 
