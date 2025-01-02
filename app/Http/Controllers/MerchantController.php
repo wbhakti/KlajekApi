@@ -134,7 +134,7 @@ class MerchantController extends Controller
             return response()->json([
                 "data" => [
                     "jarak" => round($distance / 1000, 1),
-                    "biaya antar" => $biaya_antar,
+                    "biaya_antar" => $biaya_antar,
                     "fee" => $fee
                 ]
             ], 200);
