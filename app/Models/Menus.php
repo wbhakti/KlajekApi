@@ -13,7 +13,7 @@ class Menus extends Model
 {
     use HasFactory;
 
-    protected $table = 'Menus';
+    protected $table = 'menus';
     protected $fillable = [
         'sku',
         'nama',

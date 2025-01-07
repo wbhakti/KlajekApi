@@ -16,7 +16,8 @@ class MenuController extends Controller
         $menus = DB::table('menus')
             ->join('categories', 'menus.kategori', '=', 'categories.id')
             ->select('menus.*', 'categories.nama AS kategori', 'categories.id AS id_kategori')
-            ->where('menus.merchant_id', '=', $merchant_id)->get();
+            ->where('menus.merchant_id', '=', $merchant_id)
+            ->where('is_delete', false)->get();
 
         if ($menus) {
             return MenuColection::collection($menus);

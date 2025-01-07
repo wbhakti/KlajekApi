@@ -12,7 +12,7 @@ class MerchantController extends Controller
 {
     public function index()
     {
-        $merchants = DB::table('merchants')->get();
+        $merchants = DB::table('merchants')->where('is_delete', false)->get();
 
         return MerchantColection::collection($merchants);
     }
