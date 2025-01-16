@@ -28,7 +28,8 @@ class MerchantController extends Controller
         $merchant->save();
 
         return response()->json([
-            "message" => "Merchant Di tambahkan"
+            "message" => "Merchant Di tambahkan",
+            "merchant_id" => $merchant->id
         ], 201);
     }
 

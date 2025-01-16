@@ -145,7 +145,7 @@ class MenuController extends Controller
                 ->update(
                     [
                         'nama' => is_null($request->nama) ? $data->nama : $request->nama,
-                        'merchant_id' => is_null($request->harga) ? $data->harga : $request->harga,
+                        'merchant_id' => is_null($request->merchant_id) ? $data->merchant_id : $request->merchant_id,
                         'updated_at' => Carbon::now()
                     ]
                 );
