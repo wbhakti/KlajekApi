@@ -15,7 +15,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/merchants', [MerchantController::class, 'index']);
-Route::get('/menus/{id_menu}', [MenuController::class, 'menu']);
+Route::get('/menus/{id_merchant}', [MenuController::class, 'menu']);
 Route::get('/category/{id_merchant}', [MenuController::class, 'category']);
 Route::get('/ongkir', [MerchantController::class, 'ongkir']);
 Route::post('/checkout', [TransactionController::class, 'checkout']);
@@ -26,12 +26,17 @@ Route::post('/login', [UserController::class, 'login']);
 
 Route::middleware([ApiKeyMiddleware::class])->group(function () {
     Route::post('/merchants', [MerchantController::class, 'addMerchant']);
-    Route::put('/merchants/update/{id_merchant}', [MerchantController::class, 'update']);
     Route::post('merchant/upload', [MerchantController::class, 'uploadMerchant']);
+    Route::put('/merchants/update/{id_merchant}', [MerchantController::class, 'update']);
+    Route::put('/merchants/delete/{id_merchant}', [MerchantController::class, 'deleteMerchant']);
+
     Route::post('/menus', [MenuController::class, 'addMenu']);
     Route::post('/menu/upload', [MenuController::class, 'uploadMenu']);
     Route::put('/menu/update/{id_menu}', [MenuController::class, 'updateMenu']);
-    Route::put('/menu/delete', [MenuController::class, 'deleteMenu']);
+    Route::put('/menu/delete/{id_menu}', [MenuController::class, 'deleteMenu']);
+
     Route::post('/category', [MenuController::class, 'addCategory']);
+    Route::put('/category/update/{id_category}', [MenuController::class, 'updateCategory']);
+    Route::put('/category/delete/{id_category}', [MenuController::class, 'deleteCategory']);
 });
 

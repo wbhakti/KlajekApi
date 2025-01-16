@@ -17,7 +17,7 @@ class MenuController extends Controller
             ->join('categories', 'menus.kategori', '=', 'categories.id')
             ->select('menus.*', 'categories.nama AS kategori', 'categories.id AS id_kategori')
             ->where('menus.merchant_id', '=', $merchant_id)
-            ->where('is_delete', false)->get();
+            ->where('menus.is_delete', false)->get();
 
         if ($menus) {
             return MenuColection::collection($menus);
@@ -59,7 +59,8 @@ class MenuController extends Controller
                         'nama' => is_null($request->nama) ? $merchant->nama : $request->nama,
                         'harga' => is_null($request->harga) ? $merchant->harga : $request->harga,
                         'image' => is_null($request->image) ? $merchant->image : $request->image,
-                        'kategori' => is_null($request->kategori) ? $merchant->kategori : $request->kategori
+                        'kategori' => is_null($request->kategori) ? $merchant->kategori : $request->kategori,
+                        'updated_at' => Carbon::now()
                     ]
                 );
             return response()->json([
@@ -70,50 +71,6 @@ class MenuController extends Controller
                 "message" => "Menu tidak ditemukan"
             ], 201);
         }
-    }
-
-    public function deleteMenu(Request $request)
-    {
-        $merchant = DB::table('menus')->where('id', $request->id)->first();
-
-        if ($merchant) {
-            $affected = DB::table('menus')
-                ->where('id', $request->id)
-                ->update(
-                    [
-                        'is_delete' => true,
-                    ]
-                );
-            return response()->json([
-                "message" => "Menu berhasil dihapus"
-            ], 200);
-        } else {
-            return response()->json([
-                "message" => "Menu tidak dihapus"
-            ], 201);
-        }
-    }
-
-    public function category($merchant_id)
-    {
-        $merchants = DB::table('categories')
-            ->where('merchant_id', '=', $merchant_id)
-            ->get();
-        return response()->json($merchants);
-    }
-
-    public function addCategory(Request $request)
-    {
-        DB::table('categories')->insert([
-            'nama' => $request->nama,
-            'merchant_id' => $request->merchant_id,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
-        return response()->json([
-            "message" => "Kategori Di tambahkan"
-        ], 201);
     }
 
     public function uploadMenu(Request $request)
@@ -133,4 +90,96 @@ class MenuController extends Controller
             ]
         ], 200);
     }
+
+    public function deleteMenu($id_menu)
+    {
+        $merchant = DB::table('menus')->where('id', $id_menu)->first();
+
+        if ($merchant) {
+            $affected = DB::table('menus')
+                ->where('id', $id_menu)
+                ->update(
+                    [
+                        'is_delete' => true,
+                    ]
+                );
+            return response()->json([
+                "message" => "Menu berhasil dihapus"
+            ], 200);
+        } else {
+            return response()->json([
+                "message" => "Menu tidak dihapus"
+            ], 201);
+        }
+    }
+
+    public function category($merchant_id)
+    {
+        $merchants = DB::table('categories')
+            ->where('merchant_id', '=', $merchant_id)
+            ->where('is_delete', false)->get();
+        return response()->json($merchants);
+    }
+
+    public function addCategory(Request $request)
+    {
+        DB::table('categories')->insert([
+            'nama' => $request->nama,
+            'merchant_id' => $request->merchant_id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        return response()->json([
+            "message" => "Kategori Di tambahkan"
+        ], 201);
+    }
+
+    public function updateCategory(Request $request, $id)
+    {
+        $data = DB::table('categories')->where('id', $id)->first();
+
+        if ($data) {
+            $affected = DB::table('categories')
+                ->where('id', $id)
+                ->update(
+                    [
+                        'nama' => is_null($request->nama) ? $data->nama : $request->nama,
+                        'merchant_id' => is_null($request->harga) ? $data->harga : $request->harga,
+                        'updated_at' => Carbon::now()
+                    ]
+                );
+            return response()->json([
+                "message" => "Kategori berhasil diupdate"
+            ], 200);
+        } else {
+            return response()->json([
+                "message" => "Kategori tidak ditemukan"
+            ], 201);
+        }
+    }
+
+    public function deleteCategory($id_category)
+    {
+        $data = DB::table('categories')->where('id', $id_category)->first();
+
+        if ($data) {
+            $affected = DB::table('categories')
+                ->where('id', $id_category)
+                ->update(
+                    [
+                        'is_delete' => true,
+                    ]
+                );
+            return response()->json([
+                "message" => "Kategori berhasil dihapus"
+            ], 200);
+        } else {
+            return response()->json([
+                "message" => "Kategori tidak ditemukan"
+            ], 201);
+        }
+    }
+
+    
 }
