@@ -7,13 +7,14 @@ use App\Models\Merchants;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class MerchantController extends Controller
 {
     public function index()
     {
         $merchants = DB::table('merchants')->where('is_delete', false)->get();
-
+        
         return MerchantColection::collection($merchants);
     }
 
