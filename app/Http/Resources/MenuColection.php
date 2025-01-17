@@ -16,12 +16,12 @@ class MenuColection extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $mimage = 'images/menus/' . $this->image;
+        $mimage = 'images/menus/' . $this->merchant_id . '/' . $this->image;
 
         if(!File::exists(public_path($mimage))){
             $mimage = 'KlajekApi/public/images/default-img.jpeg';
         } else {
-            $mimage = 'KlajekApi/public/images/menus/' . $this->image;
+            $mimage = 'KlajekApi/public/images/menus/' . $this->merchant_id . '/' . $this->image;
         }
 
         return [
