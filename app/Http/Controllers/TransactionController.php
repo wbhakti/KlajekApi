@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Egulias\EmailValidator\Result\Reason\DetailedReason;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 class TransactionController extends Controller
 {
@@ -74,6 +75,64 @@ class TransactionController extends Controller
 
         if ($data) {
             return TransactionColection::collection($data);
+        } else {
+            return response()->json([
+                "message" => "Order Tidak ditemukan"
+            ], 204);
+        }
+    }
+
+    public function orderMerchantResult(Request $request)
+    {
+        $data = DB::table('transactions')
+            ->join('customers', 'transactions.customer_id', '=', 'customers.id')
+            ->join('merchants', 'transactions.merchant_id', '=', 'merchants.id')
+            ->whereBetween('transactions.created_at',array($request->date_start,$request->date_end))
+            ->where('transactions.merchant_id', '=', $request->merchant_id)
+            ->select('transactions.*', 'customers.full_name', 'customers.phone_number', 'merchants.nama  AS merchant_name', 'customers.phone_number')
+            ->get();
+
+        if ($data) {
+            return TransactionColection::collection($data);
+        } else {
+            return response()->json([
+                "message" => "Order Tidak ditemukan"
+            ], 204);
+        }
+    }
+
+    public function orderResult(Request $request)
+    {    
+
+        $data = DB::table('transactions')
+                ->join('customers', 'transactions.customer_id', '=', 'customers.id')
+                ->join('merchants', 'transactions.merchant_id', '=', 'merchants.id')
+                ->whereBetween('transactions.created_at',array($request->date_start,$request->date_end))
+                ->select('transactions.merchant_id',
+                        'merchants.nama as merchant_name', 
+                        DB::raw('count(transactions.id) as total_transaksi'),
+                        DB::raw('SUM(total) as total_order'),
+                        DB::raw('SUM(ongkir) as total_ongkir'),
+                        DB::raw('SUM(fee) as total_fee'))
+                ->groupBy('merchant_id')->get();
+
+        $sumOrder = DB::table('transactions')
+            ->whereBetween('created_at',array($request->date_start,$request->date_end))->sum('total');
+        $sumOngkir = DB::table('transactions')
+            ->whereBetween('created_at',array($request->date_start,$request->date_end))->sum('ongkir');
+        $sumFee = DB::table('transactions')
+            ->whereBetween('created_at',array($request->date_start,$request->date_end))->sum('fee');
+
+        if ($data) {
+            return response()->json([
+                "date_start" => $request->date_start,
+                "date_end" => $request->date_end,
+                "order_all" => $sumOrder,
+                "ongkir_all" => $sumOngkir,
+                "fee_all" => $sumFee,
+                "merchants" => $data,
+            ], 200);
+
         } else {
             return response()->json([
                 "message" => "Order Tidak ditemukan"
