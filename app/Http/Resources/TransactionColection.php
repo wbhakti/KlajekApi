@@ -22,7 +22,8 @@ class TransactionColection extends JsonResource
             'customer' => [
                 'id' => $this->customer_id,
                 'full_name' => $this->full_name,
-                'phone_number' => $this->phone_number
+                'phone_number' => $this->phone_number,
+                'address' => $this->address
             ],
             'merchant' => [
                 'id' => $this->merchant_id,

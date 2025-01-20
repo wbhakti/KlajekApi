@@ -21,12 +21,13 @@ Route::get('/ongkir', [MerchantController::class, 'ongkir']);
 Route::post('/checkout', [TransactionController::class, 'checkout']);
 Route::get('/order/{id_transaction}', [TransactionController::class, 'order']);
 Route::get('/orders', [TransactionController::class, 'orderAll']);
-Route::post('/orders/result', [TransactionController::class, 'orderResult']);
-Route::post('/orders', [TransactionController::class, 'orderMerchantResult']);
 Route::get('/order/details/{id_transaction}', [TransactionController::class, 'orderDetail']);
 Route::post('/login', [UserController::class, 'login']);
 
 Route::middleware([ApiKeyMiddleware::class])->group(function () {
+    Route::post('/orders/merchant/{id_merchant}', [TransactionController::class, 'orderMerchantResult']);
+    Route::post('/orders/result', [TransactionController::class, 'orderResult']);
+
     Route::post('/merchants', [MerchantController::class, 'addMerchant']);
     Route::post('merchant/upload', [MerchantController::class, 'uploadMerchant']);
     Route::put('/merchants/update/{id_merchant}', [MerchantController::class, 'update']);
