@@ -116,6 +116,8 @@ class TransactionController extends Controller
                         DB::raw('SUM(fee) as total_fee'))
                 ->groupBy('transactions.merchant_id')->get();
 
+        $countOrder = DB::table('transactions')
+            ->whereBetween('created_at',array($request->date_start,$request->date_end))->count('id');
         $sumOrder = DB::table('transactions')
             ->whereBetween('created_at',array($request->date_start,$request->date_end))->sum('total');
         $sumOngkir = DB::table('transactions')
@@ -127,6 +129,7 @@ class TransactionController extends Controller
             return response()->json([
                 "date_start" => $request->date_start,
                 "date_end" => $request->date_end,
+                "count_order" => $countOrder,
                 "order_all" => $sumOrder,
                 "ongkir_all" => $sumOngkir,
                 "fee_all" => $sumFee,
